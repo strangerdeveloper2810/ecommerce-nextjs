@@ -194,7 +194,14 @@ const RegisterPage: NextPage<NextPageProps> = () => {
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
               <Typography>{'Do you have already account?'}</Typography>
-              <Link href='/login'>{'Sign in'}</Link>
+              <Link
+                href='/login'
+                style={{
+                  color: theme.palette.mode === 'light' ? theme.palette.common.black : theme.palette.common.white
+                }}
+              >
+                {'Sign in'}
+              </Link>
             </Box>
             <Typography sx={{ textAlign: 'center', mt: 2, mb: 2 }}>Or</Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
