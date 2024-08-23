@@ -16,28 +16,26 @@ import {
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { validationSchema } from './validationSchema'
+import { LoginAuth } from 'src/types/auth'
 import CustomeTextField from 'src/components/text-field'
 import CustomIcon from 'src/components/Icon'
 import LoginDark from '/public/images/login-dark.png'
 import LoginLight from '/public/images/login-light.png'
+import { useAuth } from 'src/hooks/useAuth'
 
 type NextPageProps = {}
-
-interface LoginInputProps {
-  email: string
-  password: string
-}
 
 const LoginPage: NextPage<NextPageProps> = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isRemember, setIsRemember] = useState(true)
 
   const theme = useTheme()
+  const { login } = useAuth()
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginInputProps>({
+  } = useForm<LoginAuth>({
     defaultValues: {
       email: '',
       password: ''
@@ -46,8 +44,10 @@ const LoginPage: NextPage<NextPageProps> = () => {
     resolver: yupResolver(validationSchema)
   })
 
-  const onSubmit = (data: LoginInputProps) => {
-    console.log({ data })
+  const onSubmit = (data: LoginAuth) => {
+    if (!Object.keys(errors).length) {
+      login({ ...data, rememberMe: isRemember })
+    }
   }
   return (
     <Box

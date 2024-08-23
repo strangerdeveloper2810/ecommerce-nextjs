@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, Box, Typography, InputAdornment, IconButton, CssBaseline } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { validationSchema } from './validationSchema'
+import { RegisterAuth } from 'src/types/auth'
 import CustomeTextField from 'src/components/text-field'
 import CustomIcon from 'src/components/Icon'
 import RegisterDark from '/public/images/register-dark.png'
@@ -14,23 +15,16 @@ import RegisterLight from '/public/images/register-light.png'
 
 type NextPageProps = {}
 
-interface RegisterInputProps {
-  email: string
-  password: string
-  confirmPassword: string
-}
-
 const RegisterPage: NextPage<NextPageProps> = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState(false)
-  const [isRemember, setIsRemember] = useState(true)
 
   const theme = useTheme()
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<RegisterInputProps>({
+  } = useForm<RegisterAuth>({
     defaultValues: {
       email: '',
       password: '',
@@ -40,7 +34,7 @@ const RegisterPage: NextPage<NextPageProps> = () => {
     resolver: yupResolver(validationSchema)
   })
 
-  const onSubmit = (data: RegisterInputProps) => {
+  const onSubmit = (data: RegisterAuth) => {
     console.log({ data })
   }
   return (
