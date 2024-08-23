@@ -185,7 +185,7 @@ const RegisterPage: NextPage<NextPageProps> = () => {
                     }}
                   />
                 )}
-                name='password'
+                name='confirmPassword'
               />
             </Box>
 
