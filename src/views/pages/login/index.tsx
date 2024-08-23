@@ -181,7 +181,7 @@ const LoginPage: NextPage<NextPageProps> = () => {
               <Link
                 href='/register'
                 style={{
-                  color: theme.palette.mode === 'light' ? theme.palette.common.black : theme.palette.common.white
+                  color: theme.palette.primary.main
                 }}
               >
                 {'Sign Up'}
