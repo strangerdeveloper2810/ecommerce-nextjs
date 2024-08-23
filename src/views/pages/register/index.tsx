@@ -4,50 +4,38 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import {
-  Button,
-  FormControlLabel,
-  Checkbox,
-  Box,
-  Typography,
-  InputAdornment,
-  IconButton,
-  CssBaseline
-} from '@mui/material'
+import { Button, Box, Typography, InputAdornment, IconButton, CssBaseline } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { validationSchema } from './validationSchema'
-import { LoginAuth } from 'src/types/auth'
+import { RegisterAuth } from 'src/types/auth'
 import CustomeTextField from 'src/components/text-field'
 import CustomIcon from 'src/components/Icon'
-import LoginDark from '/public/images/login-dark.png'
-import LoginLight from '/public/images/login-light.png'
-import { useAuth } from 'src/hooks/useAuth'
+import RegisterDark from '/public/images/register-dark.png'
+import RegisterLight from '/public/images/register-light.png'
 
 type NextPageProps = {}
 
-const LoginPage: NextPage<NextPageProps> = () => {
+const RegisterPage: NextPage<NextPageProps> = () => {
   const [showPassword, setShowPassword] = useState(false)
-  const [isRemember, setIsRemember] = useState(true)
+  const [confirmPassword, setConfirmPassword] = useState(false)
 
   const theme = useTheme()
-  const { login } = useAuth()
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm<LoginAuth>({
+  } = useForm<RegisterAuth>({
     defaultValues: {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     },
     mode: 'onBlur',
     resolver: yupResolver(validationSchema)
   })
 
-  const onSubmit = (data: LoginAuth) => {
-    if (!Object.keys(errors).length) {
-      login({ ...data, rememberMe: isRemember })
-    }
+  const onSubmit = (data: RegisterAuth) => {
+    console.log({ data })
   }
   return (
     <Box
@@ -76,7 +64,7 @@ const LoginPage: NextPage<NextPageProps> = () => {
         }}
       >
         <Image
-          src={theme.palette.mode === 'light' ? LoginLight : LoginDark}
+          src={theme.palette.mode === 'light' ? RegisterLight : RegisterDark}
           alt='login image'
           style={{
             width: 'auto',
@@ -158,33 +146,55 @@ const LoginPage: NextPage<NextPageProps> = () => {
               />
             </Box>
 
-            <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value='remember'
-                    name='remember'
-                    onChange={event => setIsRemember(event.target.checked)}
-                    color='primary'
+            <Box sx={{ mt: 2, width: '300px' }}>
+              <Controller
+                control={control}
+                rules={{
+                  required: true
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <CustomeTextField
+                    required
+                    fullWidth
+                    label='Confirm Password'
+                    placeholder='Please confirm your password!'
+                    type={confirmPassword ? 'text' : 'password'}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    error={Boolean(errors.confirmPassword)}
+                    helperText={errors?.confirmPassword?.message}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton edge='end' onClick={() => setConfirmPassword(!confirmPassword)}>
+                            {confirmPassword ? (
+                              <CustomIcon icon='material-symbols:visibility-outline' />
+                            ) : (
+                              <CustomIcon icon='ic:outline-visibility-off' />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                   />
-                }
-                label='Remember me'
+                )}
+                name='confirmPassword'
               />
-              <Typography variant='body2'>Forgot password?</Typography>
             </Box>
 
             <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
-              Sign In
+              Register
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-              <Typography>{"Don't have an account?"}</Typography>
+              <Typography>{'Do you have already account?'}</Typography>
               <Link
-                href='/register'
+                href='/login'
                 style={{
                   color: theme.palette.primary.main
                 }}
               >
-                {'Sign Up'}
+                {'Sign in'}
               </Link>
             </Box>
             <Typography sx={{ textAlign: 'center', mt: 2, mb: 2 }}>Or</Typography>
@@ -232,4 +242,4 @@ const LoginPage: NextPage<NextPageProps> = () => {
   )
 }
 
-export default LoginPage
+export default RegisterPage
