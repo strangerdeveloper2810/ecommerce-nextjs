@@ -3,6 +3,7 @@ import { NextPage } from 'next'
 import { styled } from '@mui/material/styles'
 import { Toolbar, IconButton, Typography, Badge } from '@mui/material'
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
+import CustomIcon from 'src/components/Icon'
 
 type Props = {
   open: boolean
@@ -51,14 +52,14 @@ const VerticalLayout: NextPage<Props> = ({ open, toggleDrawer }) => {
             ...(open && { display: 'none' })
           }}
         >
-          menu
+          <CustomIcon icon='ic:round-menu' />
         </IconButton>
         <Typography component='h1' variant='h6' color='inherit' noWrap sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
         <IconButton color='inherit'>
           <Badge badgeContent={4} color='secondary'>
-            noti
+            <CustomIcon icon='iconamoon:notification-light' />
           </Badge>
         </IconButton>
       </Toolbar>

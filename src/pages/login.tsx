@@ -1,10 +1,14 @@
-import { NextPage } from "next";
-import LoginPage from "src/views/pages/login";
+import { NextPage } from 'next'
+import { ReactNode } from 'react'
+import BlankLayout from 'src/views/layouts/BlankLayout'
+import LoginPage from 'src/views/pages/login'
 
 type NextPageProps = {}
 
 const Login: NextPage<NextPageProps> = () => {
-    return <LoginPage />
+  return <LoginPage />
 }
 
-export default Login;
+export default Login
+
+Login.getLayout = (page: ReactNode) => <BlankLayout>{page}</BlankLayout>
